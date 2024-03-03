@@ -255,6 +255,7 @@ router.get("/totalexpense/:userId/:friendId", async (req, res) => {
         var youWillReceive = 0;
 
         // Iterate through transactions and calculate total money owed and owing
+        // Iterate through transactions and calculate total money owed and owing
         transactions.forEach(transaction => {
             // console.log(transaction);
             let amount = Number(transaction.amount);
@@ -269,15 +270,30 @@ router.get("/totalexpense/:userId/:friendId", async (req, res) => {
 
                     youWillReceive = youWillReceive + amount;
                 }
-            } else {
-                // User is the other party in the transaction
-
-                if (transaction.splittype === 'other paid split equally') {
+                else if (transaction.splittype === 'other paid split equally') {
 
                     youWillGive = youWillGive + amount / 2;
                 } else if (transaction.splittype === 'other paid full amount') {
 
                     youWillGive = youWillGive + amount;
+                }
+            } else if (transaction.other.toString() === userId) {
+                // User is the other party in the transaction
+
+                if (transaction.splittype === 'you paid split equally') {
+
+                    youWillGive = youWillGive + amount / 2;
+                } else if (transaction.splittype === 'you paid full amount') {
+
+                    
+                    youWillGive = youWillGive + amount;
+                }
+                else if (transaction.splittype === 'other paid split equally') {
+
+                    youWillReceive = youWillReceive + amount / 2;
+                } else if (transaction.splittype === 'other paid full amount') {
+
+                    youWillReceive = youWillReceive + amount;
                 }
             }
         });
@@ -348,15 +364,29 @@ router.get("/gettransaction/:userId/:friendId", authenticate, async (req, res) =
 
                     youWillReceive = youWillReceive + amount;
                 }
-            } else {
-                // User is the other party in the transaction
-
-                if (transaction.splittype === 'other paid split equally') {
+                else if (transaction.splittype === 'other paid split equally') {
 
                     youWillGive = youWillGive + amount / 2;
                 } else if (transaction.splittype === 'other paid full amount') {
 
                     youWillGive = youWillGive + amount;
+                }
+            } else if (transaction.other.toString() === userId) {
+                // User is the other party in the transaction
+
+                if (transaction.splittype === 'you paid split equally') {
+
+                    youWillGive = youWillGive + amount / 2;
+                } else if (transaction.splittype === 'you paid full amount') {
+
+                    youWillGive = youWillGive + amount;
+                }
+                else if (transaction.splittype === 'other paid split equally') {
+
+                    youWillReceive = youWillReceive + amount / 2;
+                } else if (transaction.splittype === 'other paid full amount') {
+
+                    youWillReceive = youWillReceive + amount;
                 }
             }
         });
