@@ -17,10 +17,12 @@ const CLIENT = process.env.CLIENT
 
 require('./db/conn')
 
-app.use(cors({
-    origin: ['http://localhost:3000','https://localhost:3000', `http://${CLIENT}`, `https://${CLIENT}`],
-    credentials: true,
-})); // to remove CORS(cross oregin resource shering) error (front end  port 3000 and back end port 8009) 
+// app.use(cors({
+//     origin: ['http://localhost:3000','https://localhost:3000', `http://${CLIENT}`, `https://${CLIENT}`],
+//     credentials: true,
+// })); // to remove CORS(cross oregin resource shering) error (front end  port 3000 and back end port 8009) 
+
+app.use(cors());
 
 // app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: true }));
