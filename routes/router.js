@@ -194,7 +194,6 @@ router.post("/makefriend", authenticate, async (req, res) => {
     }
 });
 
-
 router.post("/maketransaction/:userId/:friendId", authenticate, async (req, res) => {
     const { userId, friendId } = req.params;
     const { amount, description, splittype, date } = req.body; // Added 'date' field
@@ -237,7 +236,7 @@ router.post("/maketransaction/:userId/:friendId", authenticate, async (req, res)
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-router.get("/totalexpense/:userId/:friendId", async (req, res) => {
+router.get("/totalexpense/:userId/:friendId",authenticate, async (req, res) => {
     const { userId, friendId } = req.params;
 
     try {
